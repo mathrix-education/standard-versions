@@ -4,11 +4,12 @@ import { render } from './lib/render';
 
 async function main(): Promise<void> {
   // Generate version
-  const versions = getInput('templates')
+  const templates = getInput('templates')
     .split(',')
-    .map(v => v.trim());
+    .map(t => t.trim())
+    .filter(t => t !== '');
 
-  for (const v of versions) {
+  for (const v of templates) {
     const template = getInput(v);
 
     if (!template) {
