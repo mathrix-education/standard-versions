@@ -1,0 +1,31 @@
+name: Standard Versions
+author: Edutech Media SA
+description: Easily Generate standard versions (SemVer, docker tags...) in GitHub Actions from a well-know manifest.
+branding:
+  color: gray-dark
+  icon: hash
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
+inputs:
+  templates:
+    description: The version outputs, comma-separated.
+    required: false
+    default: 'version,semver,docker'
+  separators:
+    description: The template separators.
+    required: false
+    default: './+-_'
+  version:
+    description: Project version, read from a well-known file.
+    required: false
+    default: '[version]'
+  semver:
+    description: SemVer-compatible version number.
+    required: false
+    default: '[version]+[number].[branch].[shortSha]'
+  docker:
+    description: Docker-compatible tag.
+    required: false
+    default: '[version]-[number].[branch].[shortSha]'
+outputs: {}
