@@ -23,7 +23,11 @@ async function main(): Promise<void> {
   const context = await Context.getInstance();
 
   context.forEach((value: Token, key: string) => {
-    setOutput(key, value.toString());
+    const valueStr = value.toString();
+
+    if (valueStr !== '') {
+      setOutput(key, value.toString());
+    }
   });
 }
 
