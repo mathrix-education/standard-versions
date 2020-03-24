@@ -32,7 +32,7 @@ export function version(): string {
   }
 
   if (file.format === 'json') {
-    const data: { version: string } = JSON.parse(readFileSync(file.path, ''));
+    const data: { version: string } = JSON.parse(readFileSync(file.name, ''));
     return data.version ?? UNKNOWN;
   } else {
     return UNKNOWN;

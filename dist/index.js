@@ -1565,7 +1565,7 @@ async function execGetOutput(commandLine, args, options) {
 async function git() {
     var _a;
     const map = {
-        sha: await execGetOutput('git', ['rev-parse', '--abbrev-ref', 'HEAD']),
+        sha: await execGetOutput('git', ['rev-parse', 'HEAD']),
         shortSha: UNKNOWN,
         ref: (_a = process.env.GITHUB_REF) !== null && _a !== void 0 ? _a : '',
         isBranch: false,
@@ -1598,12 +1598,11 @@ async function git() {
 }
 
 // CONCATENATED MODULE: ./src/contexts/github.ts
-
 function github() {
     var _a, _b;
     return {
-        id: (_a = process.env.GITHUB_RUN_ID) !== null && _a !== void 0 ? _a : UNKNOWN,
-        number: (_b = process.env.GITHUB_RUN_NUMBER) !== null && _b !== void 0 ? _b : '0000',
+        id: (_a = process.env.GITHUB_RUN_ID) !== null && _a !== void 0 ? _a : '',
+        number: (_b = process.env.GITHUB_RUN_NUMBER) !== null && _b !== void 0 ? _b : '',
     };
 }
 
@@ -1634,7 +1633,7 @@ function version() {
         return UNKNOWN;
     }
     if (file.format === 'json') {
-        const data = JSON.parse(Object(external_fs_.readFileSync)(file.path, ''));
+        const data = JSON.parse(Object(external_fs_.readFileSync)(file.name, ''));
         return (_a = data.version) !== null && _a !== void 0 ? _a : UNKNOWN;
     }
     else {
@@ -1718,10 +1717,11 @@ async function render(template) {
 
 async function main() {
     // Generate version
-    const versions = Object(core.getInput)('templates')
+    const templates = Object(core.getInput)('templates')
         .split(',')
-        .map(v => v.trim());
-    for (const v of versions) {
+        .map(t => t.trim())
+        .filter(t => t !== '');
+    for (const v of templates) {
         const template = Object(core.getInput)(v);
         if (!template) {
             Object(core.warning)('Template ' + v + ' does not exists');
@@ -1732,7 +1732,10 @@ async function main() {
     // Output context
     const context = await context_Context.getInstance();
     context.forEach((value, key) => {
-        Object(core.setOutput)(key, value.toString());
+        const valueStr = value.toString();
+        if (valueStr !== '') {
+            Object(core.setOutput)(key, value.toString());
+        }
     });
 }
 main().catch(e => Object(core.setFailed)(e));
