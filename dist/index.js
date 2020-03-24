@@ -1727,12 +1727,12 @@ async function main() {
             Object(core.warning)('Template ' + v + ' does not exists');
             continue;
         }
-        Object(core.setOutput)(v, await render(v));
+        Object(core.setOutput)(v, await render(Object(core.getInput)(v)));
     }
     // Output context
     const context = await context_Context.getInstance();
-    Object.keys(context).forEach(k => {
-        Object(core.setOutput)(k, context.get(k).toString());
+    Object.entries(context).forEach(([key, value]) => {
+        Object(core.setOutput)(key, value.toString());
     });
 }
 main().catch(e => Object(core.setFailed)(e));

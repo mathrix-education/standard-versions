@@ -16,14 +16,14 @@ async function main(): Promise<void> {
       continue;
     }
 
-    setOutput(v, await render(v));
+    setOutput(v, await render(getInput(v)));
   }
 
   // Output context
   const context = await Context.getInstance();
 
-  Object.keys(context).forEach(k => {
-    setOutput(k, context.get(k).toString());
+  Object.entries(context).forEach(([key, value]) => {
+    setOutput(key, value.toString());
   });
 }
 
