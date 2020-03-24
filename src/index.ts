@@ -1,14 +1,15 @@
 import { getInput, setFailed, setOutput, warning } from '@actions/core';
-import { Context } from './lib/context';
+import { Context, Token } from './lib/context';
 import { render } from './lib/render';
 
 async function main(): Promise<void> {
   // Generate version
-  const versions = getInput('templates')
+  const templates = getInput('templates')
     .split(',')
-    .map(v => v.trim());
+    .map(t => t.trim())
+    .filter(t => t !== '');
 
-  for (const v of versions) {
+  for (const v of templates) {
     const template = getInput(v);
 
     if (!template) {
@@ -16,14 +17,18 @@ async function main(): Promise<void> {
       continue;
     }
 
-    setOutput(v, await render(v));
+    setOutput(v, await render(getInput(v)));
   }
 
   // Output context
   const context = await Context.getInstance();
 
-  Object.keys(context).forEach(k => {
-    setOutput(k, context.get(k).toString());
+  context.forEach((value: Token, key: string) => {
+    const valueStr = value.toString();
+
+    if (valueStr !== '') {
+      setOutput(key, value.toString());
+    }
   });
 }
 

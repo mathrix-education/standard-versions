@@ -5,7 +5,7 @@ import { execGetOutput } from '../lib/io';
 
 export async function git(): Promise<TokenMap> {
   const map = {
-    sha: await execGetOutput('git', ['rev-parse', '--abbrev-ref', 'HEAD']),
+    sha: await execGetOutput('git', ['rev-parse', 'HEAD']),
     shortSha: UNKNOWN,
     ref: process.env.GITHUB_REF ?? '',
     isBranch: false,

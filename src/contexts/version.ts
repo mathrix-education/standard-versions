@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from 'fs';
 import { UNKNOWN } from '../lib/constants';
 
 interface JSONVersionFile {
-  file: string;
+  name: string;
   format: 'json';
   path: string;
 }
@@ -11,12 +11,12 @@ type VersionFile = JSONVersionFile;
 
 const WELL_KNOWN_FILES: VersionFile[] = [
   {
-    file: 'composer.json',
+    name: 'composer.json',
     format: 'json',
     path: 'version',
   },
   {
-    file: 'package.json',
+    name: 'package.json',
     format: 'json',
     path: 'version',
   },
@@ -24,7 +24,7 @@ const WELL_KNOWN_FILES: VersionFile[] = [
 
 export function version(): string {
   const file = WELL_KNOWN_FILES.find((file: VersionFile) => {
-    return existsSync(file.path);
+    return existsSync(file.name);
   }) as VersionFile;
 
   if (!file) {
@@ -32,7 +32,7 @@ export function version(): string {
   }
 
   if (file.format === 'json') {
-    const data: { version: string } = JSON.parse(readFileSync(file.path, ''));
+    const data: { version: string } = JSON.parse(readFileSync(file.name, ''));
     return data.version ?? UNKNOWN;
   } else {
     return UNKNOWN;
