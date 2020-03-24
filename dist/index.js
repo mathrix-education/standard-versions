@@ -1615,12 +1615,12 @@ var external_fs_ = __webpack_require__(747);
 
 const WELL_KNOWN_FILES = [
     {
-        file: 'composer.json',
+        name: 'composer.json',
         format: 'json',
         path: 'version',
     },
     {
-        file: 'package.json',
+        name: 'package.json',
         format: 'json',
         path: 'version',
     },
@@ -1628,7 +1628,7 @@ const WELL_KNOWN_FILES = [
 function version() {
     var _a;
     const file = WELL_KNOWN_FILES.find((file) => {
-        return Object(external_fs_.existsSync)(file.path);
+        return Object(external_fs_.existsSync)(file.name);
     });
     if (!file) {
         return UNKNOWN;
@@ -1731,7 +1731,7 @@ async function main() {
     }
     // Output context
     const context = await context_Context.getInstance();
-    Object.entries(context).forEach(([key, value]) => {
+    context.forEach((value, key) => {
         Object(core.setOutput)(key, value.toString());
     });
 }

@@ -1,5 +1,5 @@
 import { getInput, setFailed, setOutput, warning } from '@actions/core';
-import { Context } from './lib/context';
+import { Context, Token } from './lib/context';
 import { render } from './lib/render';
 
 async function main(): Promise<void> {
@@ -22,7 +22,7 @@ async function main(): Promise<void> {
   // Output context
   const context = await Context.getInstance();
 
-  Object.entries(context).forEach(([key, value]) => {
+  context.forEach((value: Token, key: string) => {
     setOutput(key, value.toString());
   });
 }
