@@ -1579,7 +1579,7 @@ async function git() {
     if (map.ref === '') {
         return map;
     }
-    const charmap = { ...slug_default.a.defaults.charmap, ...{ '/': '-' } };
+    const charmap = { ...slug_default.a.defaults.charmap, ...{ '/': '-', '#': '-' } };
     // Handle branch
     const branchMatches = map.ref.match(/^refs\/heads\/(.*)/);
     if (branchMatches !== null && branchMatches[1] !== undefined) {

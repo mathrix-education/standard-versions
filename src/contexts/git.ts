@@ -22,7 +22,7 @@ export async function git(): Promise<TokenMap> {
     return map;
   }
 
-  const charmap = { ...slug.defaults.charmap, ...{ '/': '-' } };
+  const charmap = { ...slug.defaults.charmap, ...{ '/': '-', '#': '-' } };
 
   // Handle branch
   const branchMatches = map.ref.match(/^refs\/heads\/(.*)/);
