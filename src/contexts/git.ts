@@ -9,11 +9,11 @@ export async function git(): Promise<TokenMap> {
     shortSha: UNKNOWN,
     ref: process.env.GITHUB_REF ?? '',
     isBranch: false,
-    rawBranch: '',
     branch: '',
+    branchSlug: '',
     isTag: false,
-    rawTag: '',
     tag: '',
+    tagSlug: '',
   };
 
   map.shortSha = map.sha.substr(0, 7);
@@ -28,16 +28,16 @@ export async function git(): Promise<TokenMap> {
   const branchMatches = map.ref.match(/^refs\/heads\/(.*)/);
   if (branchMatches !== null && branchMatches[1] !== undefined) {
     map.isBranch = true;
-    map.rawBranch = branchMatches[1];
-    map.branch = slug(branchMatches[1], { charmap }); // strip slashes
+    map.branch = branchMatches[1];
+    map.branchSlug = slug(branchMatches[1], { charmap }); // strip slashes
   }
 
   // Handle tags
   const tagsMatches = map.ref.match(/^refs\/tags\/(.*)/);
   if (tagsMatches !== null && tagsMatches[1] !== undefined) {
     map.isTag = true;
-    map.rawTag = tagsMatches[1];
-    map.tag = slug(tagsMatches[1], { charmap }); // strip slashes
+    map.tag = tagsMatches[1];
+    map.tagSlug = slug(tagsMatches[1], { charmap }); // strip slashes
   }
 
   return map;
