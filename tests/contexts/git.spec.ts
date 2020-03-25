@@ -39,8 +39,6 @@ describe('git context', () => {
     [
       '',
       {
-        sha: '1234567891011121314151617181920212223242',
-        shortSha: '1234567',
         ref: '',
         isBranch: false,
         branch: '',
@@ -50,8 +48,16 @@ describe('git context', () => {
         tagSlug: '',
       },
     ],
+    [
+      // special branch
+      'refs/heads/v7/issue#156',
+      {
+        branchSlug: 'v7-issue-156',
+      },
+    ],
   ])('should returns a valid context', async (ref: string, expected) => {
     process.env.GITHUB_REF = ref;
-    expect(await git()).toEqual(expected);
+    const context = await git();
+    expect(context).toEqual({ ...context, ...expected });
   });
 });
