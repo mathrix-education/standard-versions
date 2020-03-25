@@ -1569,11 +1569,11 @@ async function git() {
         shortSha: UNKNOWN,
         ref: (_a = process.env.GITHUB_REF) !== null && _a !== void 0 ? _a : '',
         isBranch: false,
-        rawBranch: '',
         branch: '',
+        branchSlug: '',
         isTag: false,
-        rawTag: '',
         tag: '',
+        tagSlug: '',
     };
     map.shortSha = map.sha.substr(0, 7);
     if (map.ref === '') {
@@ -1584,15 +1584,15 @@ async function git() {
     const branchMatches = map.ref.match(/^refs\/heads\/(.*)/);
     if (branchMatches !== null && branchMatches[1] !== undefined) {
         map.isBranch = true;
-        map.rawBranch = branchMatches[1];
-        map.branch = slug_default()(branchMatches[1], { charmap }); // strip slashes
+        map.branch = branchMatches[1];
+        map.branchSlug = slug_default()(branchMatches[1], { charmap }); // strip slashes
     }
     // Handle tags
     const tagsMatches = map.ref.match(/^refs\/tags\/(.*)/);
     if (tagsMatches !== null && tagsMatches[1] !== undefined) {
         map.isTag = true;
-        map.rawTag = tagsMatches[1];
-        map.tag = slug_default()(tagsMatches[1], { charmap }); // strip slashes
+        map.tag = tagsMatches[1];
+        map.tagSlug = slug_default()(tagsMatches[1], { charmap }); // strip slashes
     }
     return map;
 }

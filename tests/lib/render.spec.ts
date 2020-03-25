@@ -7,7 +7,9 @@ const context = {
   version: 'x.y.z',
   ref: 'refs/heads/test-ref',
   branch: 'test-branch',
+  branchSlug: 'test-branch',
   tag: 'test-tag',
+  tagSlug: 'test-tag',
   sha: '1234567890abcdefghijklmnopqrstuvwxzABCDE',
   shortSha: '1234567',
   id: 'test-run-id',
@@ -31,7 +33,7 @@ describe('Template renderer', () => {
     // default versions
     ['[version]', 'x.y.z'],
     ['[version]+[number].[branch].[shortSha]', 'x.y.z+1234.test-branch.1234567'],
-    ['[version]-[number].[branch].[shortSha]', 'x.y.z-1234.test-branch.1234567'],
+    ['[version]-[number].[branchSlug].[shortSha]', 'x.y.z-1234.test-branch.1234567'],
     // non-existing tokens
     ['[version][idontexist]', 'x.y.z'],
     ['[version]+[idontexist].[branch].[shortSha]', 'x.y.z+test-branch.1234567'],
