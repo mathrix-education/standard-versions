@@ -27,5 +27,5 @@ inputs:
   docker:
     description: Docker-compatible tag.
     required: false
-    default: '[version]-[number].[branch].[shortSha]'
+    default: '[version]-[number].[branchSlug].[shortSha]'
 outputs: {}
